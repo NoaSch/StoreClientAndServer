@@ -1,0 +1,125 @@
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+
+<h1 id="cartH1">Shopping Cart</h1>
+
+<div ng-controller="cartController as cartCtrl">
+    <div class="box-table">
+    <table>
+        <thead>
+            <th><a href="" ng-click="cartCtrl.fieldToOrderBy='CarSeriesID'; cartCtrl.reverseSort = !cartCtrl.reverseSort">SeriesID</a></th>
+            <th><a href="" ng-click="cartCtrl.fieldToOrderBy='Category'; cartCtrl.reverseSort = !cartCtrl.reverseSort">Category</a></th>
+            <th><a href="" ng-click="cartCtrl.fieldToOrderBy='quantity'; cartCtrl.reverseSort = !cartCtrl.reverseSort">Quantity</a></th>
+            <th><a href="" ng-click="cartCtrl.fieldToOrderBy='Price'; cartCtrl.reverseSort = !cartCtrl.reverseSort">UnitPrice</a></th>
+            <th></th>
+            <th></th>
+        </thead>
+        <tr ng-repeat="product in cartCtrl.cart | filter : cartCtrl.filterBy">
+            <td>{{product.theItem.CarSeriesID}}</td>
+            <td>{{product.theItem.Category}}</td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.theItem.UnitPrice|currency: "NIS"}}</td>
+            <td><button ng-click="cartCtrl.removeFromCart(product)">Remove from cart</button></td>
+            <td><button ng-click="open(product.theItem.CarSeriesID)">Show Details</button></td>            <!--here need to open modal with the details-->
+        </tr>
+        <tr>
+            <td><b>Total</b></td>
+            <td></td>
+            <td ng-show="cartCtrl.cart.length > 0"><b>{{cartCtrl.totalItems}}</b></td>
+            <td ng-show="cartCtrl.cart.length > 0"><b>{{cartCtrl.totalPrice| currency: "NIS"}}</b></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+    </div>
+<div modal="showModal" close="cancel()">
+    <div class="modal-header">
+        <h4>Car's Details</h4>
+    </div>
+    <div class="modal-body">
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Menufacturer</th>
+                    <th>Year</th>
+                    <th>Color</th>
+                    <th>Price</th>
+                    <th>NumInStock</th>
+                </tr>
+                </thead>
+                <tr ng-repeat="car in cartCtrl.carDetails">
+                    <td>{{car.Category}}</td>
+                    <td>{{car.Manufacturer}}</td>
+                    <td>{{car.Year}}</td>
+                    <td>{{car.Color}}</td>
+                    <td>{{car.PriceNIS|currency: "NIS"}}</td>
+                    <td>{{car.NumInStock}}</td>
+
+                    <!--<td><button ng-click="storeCtrl.removeCart(product)">Remove Cart</button> </td>-->
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+    <BR>
+   <div id="ordersBtnDiv" ng-hide="cartCtrl.orderpressed">
+    <button id="ordersBtn" ng-click="cartCtrl.getPrevOrders()">
+        Show previous orders
+    </button>
+</div>
+    <BR>
+    <div class="box-table" ng-show="cartCtrl.orderpressed">
+        <table>
+            <thead>
+            <tr>
+                <th><a href="" ng-click="cartCtrl.fieldToOrderBy='OrderID'; cartCtrl.reverseSort = !cartCtrl.reverseSort">OrderID</a></th>
+                <th><a href="" ng-click="cartCtrl.fieldToOrderBy='Date'; cartCtrl.reverseSort = !cartCtrl.reverseSort">Date</a></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tr ng-repeat="order in cartCtrl.prevOrders">
+                <td>{{order.OrderID}}</td>
+                <td>{{order.Date|date:'dd/M/yyyy'}}</td>
+                <td><button ng-click="openOrdersModal(order.OrderID)">Show Details</button> </td>            <!--here need to open modal with the details-->
+            </tr>
+        </table>
+
+    </div>
+    <div modal="showModalOrders" close="cancelOrdersModal()">
+        <div class="modal-header">
+            <h4>Order's Details</h4>
+        </div>
+        <div class="modal-body">
+            <div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>OrderID</th>
+                        <th>Date</th>
+                        <th>Price</th>
+                        <th>Currency</th>
+                        <th>DeliveryDate</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="order in cartCtrl.orderDetails">
+                        <td>{{order.OrderID}}</td>
+                        <td>{{order.Date |date:'dd/M/yyyy'}}</td>
+                        <td>{{order.Price}}</td>
+                        <td>{{order.Currency}}</td>
+                        <td>{{order.DeliveryDate|date:'dd/M/yyyy'}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+

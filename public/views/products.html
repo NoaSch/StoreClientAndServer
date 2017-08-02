@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Cars</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.2/angular-sanitize.js"></script>
+</head>
+
+
+<div ng-controller="storeCtrl as storeCtrl">
+
+    <div id="showAllBtnDiv" ng-hide="storeCtrl.hideBtn">
+    <button id="showAllBtn" ng-click="storeCtrl.getAllProducts()" >
+        Load All Cars!
+    </button>
+    </div>
+    <div ng-show="storeCtrl.hideBtn">
+    <BR><BR><BR>
+    <div align="center">
+    <span class="labelClass"> Filter By Category </span>
+    <!--<input type="text" ng-model="storeCtrl.filterBy">-->
+    <select ng-model="storeCtrl.filterBy"
+            ng-options="c.Category for c in storeCtrl.categories">
+    </select>
+    </div>
+    </div>
+    <br>
+    <br>
+    <div class="box-table" width="500" ng-show="storeCtrl.hideBtn">
+        <table>
+            <thead>
+            <tr>
+                <th><a href="" ng-click="storeCtrl.fieldToOrderBy='CarSeriesId'; storeCtrl.reverseSort = !storeCtrl.reverseSort">Car Series ID</a></th>
+                <th><a href="" ng-click="storeCtrl.fieldToOrderBy='Category'; storeCtrl.reverseSort = !storeCtrl.reverseSort">Category</a></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+                <tr ng-repeat="product in storeCtrl.products | filter : storeCtrl.filterBy.Category |orderBy:storeCtrl.fieldToOrderBy:storeCtrl.reverseSort">
+                <td>{{product.CarSeriesID}}</td>
+                <td>{{product.Category}}</td>
+                <td><button ng-click="open(product.CarSeriesID)">Show Details</button> </td>
+                <td><button ng-click="storeCtrl.addCart(product)" ng-hide="storeCtrl.userService.notLoggedIn"><img src="pics/add-to-cart-dark.png" /></button> </td>
+                <!--<td><button ng-click="storeCtrl.buyCar(product.CarSeriesId)"><img src="pics/buy.jpg" /></button> </td>-->
+
+
+                <!--<td><button ng-click="storeCtrl.removeCart(product)">Remove Cart</button> </td>-->
+            </tr>
+        </table>
+    </div>
+
+    <div ng-hide="storeCtrl.userService.notLoggedIn">
+        <h2 class="labelClass"> Reccomend For you:</h2>
+        <div class="box-table" width="500"  >
+            <table>
+                <thead>
+                <tr>
+                    <th>Car Series ID</a></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tr ng-repeat="productRec in storeCtrl.recommendsCars ">
+                    <td>{{productRec.CarSeriesID}}</td>
+                    <td><button ng-click="open(productRec.CarSeriesID)">Show Details</button> </td>
+                    <td><button ng-click="storeCtrl.addToCart(productRec.CarSeriesID)"><img src="pics/add-to-cart-dark.png" /></button> </td>
+                    <!--<td><button ng-click="storeCtrl.buyCar(product.CarSeriesId)"><img src="pics/buy.jpg" /></button> </td>-->
+
+
+                    <!--<td><button ng-click="storeCtrl.removeCart(product)">Remove Cart</button> </td>-->
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div modal="showModal" close="cancel()">
+        <div class="modal-header">
+            <h4>Car's Details</h4>
+        </div>
+        <div class="modal-body">
+            <div>
+        <table>
+            <thead>
+            <tr>
+                <th>Category</th>
+                <th>Menufacturer</th>
+                <th>Year</th>
+                <th>Color</th>
+                <th>Price</th>
+                <th>NumInStock</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="car in storeCtrl.carDetails">
+                <td>{{car.Category}}</td>
+                <td>{{car.Manufacturer}}</td>
+                <td>{{car.Year}}</td>
+                <td>{{car.Color}}</td>
+                <td>{{car.PriceNIS|currency: "NIS"}}</td>
+                <td>{{car.NumInStock}}</td>
+
+                <!--<td><button ng-click="storeCtrl.removeCart(product)">Remove Cart</button> </td>-->
+            </tr>
+        </table>
+
+    </div>
+</div>
+    </div>
+    </div>
+</html>
