@@ -80,12 +80,14 @@
                 <th><a href="" ng-click="cartCtrl.fieldToOrderBy='OrderID'; cartCtrl.reverseSort = !cartCtrl.reverseSort">OrderID</a></th>
                 <th><a href="" ng-click="cartCtrl.fieldToOrderBy='Date'; cartCtrl.reverseSort = !cartCtrl.reverseSort">Date</a></th>
                 <th></th>
+                <th></th>
             </tr>
             </thead>
             <tr ng-repeat="order in cartCtrl.prevOrders">
                 <td>{{order.OrderID}}</td>
                 <td>{{order.Date|date:'dd/M/yyyy'}}</td>
-                <td><button ng-click="openOrdersModal(order.OrderID)">Show Details</button> </td>            <!--here need to open modal with the details-->
+                <td><button ng-click="openOrdersModal(order.OrderID)">Show Details</button> </td>
+                <td><button ng-click="openCarsModal(order.OrderID)">Show Cars In Order</button></td>
             </tr>
         </table>
 
@@ -118,6 +120,28 @@
         </div>
     </div>
 
+<div modal="showModalCars" close="cancelCarsModal()">
+    <div class="modal-header">
+        <h4>Order's content</h4>
+    </div>
+    <div class="modal-body">
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>CarSeriesID</th>
+                    <th>Quantity</th>
+                </tr>
+                </thead>
+                <tr ng-repeat="carIn in cartCtrl.carsInOrder">
+                    <td>{{carIn.CarSeriesID}}</td>
+                    <td>{{carIn.Quantity}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
 </div>
 
 

@@ -77,6 +77,26 @@ angular.module("myApp")
 
         }
 
+        vm.getCarsInOrder = function (orderid) {
+            var req = {
+                method: 'POST',
+                url: 'http://localhost:4000/getCarsInOrder',
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                data: {
+                    "OrderID": orderid
+                }
+            }
+            $http(req).then(function (res) {
+                vm.carsInOrder = res.data;
+            }, function (errResponse) {
+                console.error('Error get order det');
+            });
+
+        }
+
+
 
         $scope.open = function (carID) {
             vm.getCarDetails(carID);
@@ -101,5 +121,18 @@ angular.module("myApp")
 
         $scope.cancelOrdersModal = function () {
             $scope.showModalOrders = false;
+        };
+        //carsInORders
+        $scope.openCarsModal = function (orderId) {
+            vm.getCarsInOrder(orderId);
+            $scope.showModalCars = true;
+        };
+
+        $scope.okCarsModal = function () {
+            $scope.showModalCars = false;
+        };
+
+        $scope.cancelCarsModal = function () {
+            $scope.showModalCars = false;
         };
     });

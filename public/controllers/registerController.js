@@ -66,11 +66,7 @@ angular.module("myApp")
             }
             $http(req).then(function (response) {
                 //console.error($scope.selectedVslues);
-                console.error(vm1.mult);
-                console.error($scope.selectedVslues);
                 var res = response.data;
-                console.error(vm1.Password);
-                console.error(vm1.FirstName);
                 if (Object.values(res)[0] === "Inserted"){
                     alert("Registration Complete, Go to Login Page");
                     $location.path('/login');
@@ -83,7 +79,6 @@ angular.module("myApp")
 
                 }
 
-                console.error('success');
             }, function (errResponse) {
                 console.error('Error while register');
             });

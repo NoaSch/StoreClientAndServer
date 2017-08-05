@@ -86,7 +86,6 @@ connection.on('connect', function (err) {
             //check if the user exist
             DButils.Select(connection2, ckeckQuery, function (result) {
                 if (result.length === 0) {
-                    // res.json({ "result": "Login Fail", "token": token });
                     res.send(JSON.stringify({ "Result": "Fail User Name"}));
                     // res.send(JSON.stringify({ "Failed": " the username  is Not exist" }));
                 }
@@ -332,14 +331,14 @@ connection.on('connect', function (err) {
                     });
                 }
                 else{
-                    res.send(JSON.stringify({ "Faild": "The Token is"+ _toekn}));
+                    res.send(JSON.stringify({ "Faild": "The token is inzalid"}));
 
                 }
 
             }
             else {
 
-                res.send(JSON.stringify({ "Faild": "222The Token is"+ _toekn }));
+                res.send(JSON.stringify({ "Faild": "The user name is invalid" }));
             }
 
         });
@@ -422,13 +421,13 @@ connection.on('connect', function (err) {
 
                 else {
 
-                    res.send(JSON.stringify({ "False": " Not found any order" }));
+                    res.send(JSON.stringify({ "False": "The token invalid" }));
                 }
             }
 
             else{
 
-                res.send(JSON.stringify({ "False": " Not found any order" }));
+                res.send(JSON.stringify({ "False": "The user name invalid" }));
             }
         });
 
